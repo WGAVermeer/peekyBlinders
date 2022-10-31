@@ -28,13 +28,11 @@ void setup() {
   closing_time = initialize_blinds(); 
 
   delay(2000);
-  
 }
 
 void loop() {
-  // delay(1800000); //wait 30 minutes
   decider();
-  // Serial.println(local_temp());
+  delay(300000); //wait 5 minutes
 }
 
 long initialize_blinds() {
@@ -124,20 +122,26 @@ void motor_control(float pos) {
 
 void decider() {
 
-  float tempI = local_temp();
-  Serial.print("Local temperture is "); Serial.println(tempI);
+  //static values since Wi-Fi connection does not work.
+  float time = 14; // time in hours    
+  float temp_preferred = 25;
+  bool bright = true;  
+  
+  float tempI = local_temp(); //temp in celcius
+//   Serial.print("Local temperture is "); Serial.println(tempI);
 
-  Serial.println("Please give current time");
-  float time = get_input();
-  Serial.print(time); Serial.println(" given as time.");
 
-  Serial.println("Please give brightness");
-  bool bright = get_input();   //get brightness
-  Serial.print(bright); Serial.println(" given as brightness.");
+//   Serial.println("Please give current time");
+//   float time = get_input();
+//   Serial.print(time); Serial.println(" given as time.");
 
-  Serial.println("Please give preferred temp");
-  float temp_preferred = get_input(); // TBA
-  Serial.print(temp_preferred); Serial.println(" given as preferred temperture.");
+//   Serial.println("Please give brightness");
+//   bool bright = get_input();   //get brightness
+//   Serial.print(bright); Serial.println(" given as brightness.");
+
+//   Serial.println("Please give preferred temp");
+//   float temp_preferred = get_input(); // TBA
+//   Serial.print(temp_preferred); Serial.println(" given as preferred temperture.");
 
   if(time > 20 || time < 9) { //It is ~ night time
     motor_control(100);
@@ -158,8 +162,8 @@ void decider() {
     }
   }
 }
-int get_input() {
 
+int get_input() {
   while(Serial.available() == 0) {
   }
   int input = Serial.parseInt();
